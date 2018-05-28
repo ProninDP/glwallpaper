@@ -11,6 +11,7 @@ import static android.opengl.GLES20.glViewport;
 import static android.opengl.Matrix.multiplyMM;
 import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.translateM;
+import static java.lang.Math.random;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -27,6 +28,8 @@ import android.firstopneglproject.com.glwallpaper.util.Geometry.Vector;
 import android.firstopneglproject.com.glwallpaper.util.MatrixHelper;
 import android.firstopneglproject.com.glwallpaper.util.TextureHelper;
 
+import java.util.Random;
+
 public class ParticlesRenderer implements Renderer {
     private final Context context;
 
@@ -42,8 +45,9 @@ public class ParticlesRenderer implements Renderer {
     private ParticleShooter redParticleShooter;
     private ParticleShooter greenParticleShooter;
     private ParticleShooter blueParticleShooter;
-    /*private ParticleFireworksExplosion particleFireworksExplosion;
-    private Random random;*/
+    private ParticleShooter randomParticleShooter;
+    /*private ParticleFireworksExplosion particleFireworksExplosion;*/
+    private Random random;
     private long globalStartTime;
     private int texture;
 
@@ -98,11 +102,22 @@ public class ParticlesRenderer implements Renderer {
             speedVariance);
         
         blueParticleShooter = new ParticleShooter(
-            new Point(1f, 0f, 0f), 
+            new Point(1f, 0f, 0f),
             particleDirection,
             Color.rgb(5, 50, 255),            
             angleVarianceInDegrees, 
-            speedVariance); 
+            speedVariance);
+        random = new Random();
+        randomParticleShooter = new ParticleShooter(
+                new Point(1f + random.nextFloat(),
+                        0f + random.nextFloat(),
+                        0f + random.nextFloat()),
+                particleDirection,
+                Color.rgb(random.nextInt(255),
+                        random.nextInt(255),
+                        random.nextInt(255)),
+                angleVarianceInDegrees,
+                speedVariance);
         /*
         particleFireworksExplosion = new ParticleFireworksExplosion();
         
@@ -130,9 +145,10 @@ public class ParticlesRenderer implements Renderer {
         
         float currentTime = (System.nanoTime() - globalStartTime) / 1000000000f;
         
-        redParticleShooter.addParticles(particleSystem, currentTime, 5);
+        //redParticleShooter.addParticles(particleSystem, currentTime, 5);
         greenParticleShooter.addParticles(particleSystem, currentTime, 5);              
-        blueParticleShooter.addParticles(particleSystem, currentTime, 5);
+        //blueParticleShooter.addParticles(particleSystem, currentTime, 5);
+        randomParticleShooter.addParticles(particleSystem, currentTime, 5);
         /*
         if (random.nextFloat() < 0.02f) {
             hsv[0] = random.nextInt(360);
