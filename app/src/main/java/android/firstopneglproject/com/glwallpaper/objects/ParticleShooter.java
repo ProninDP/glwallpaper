@@ -1,11 +1,11 @@
 package android.firstopneglproject.com.glwallpaper.objects;
-import static android.opengl.Matrix.multiplyMV;
-import static android.opengl.Matrix.setRotateEulerM;
+import android.firstopneglproject.com.glwallpaper.util.Geometry.Point;
+import android.firstopneglproject.com.glwallpaper.util.Geometry.Vector;
 
 import java.util.Random;
 
-import android.firstopneglproject.com.glwallpaper.util.Geometry.Point;
-import android.firstopneglproject.com.glwallpaper.util.Geometry.Vector;
+import static android.opengl.Matrix.multiplyMV;
+import static android.opengl.Matrix.setRotateEulerM;
 
 /** This class shoots particles in a particular direction. */
 
@@ -40,7 +40,7 @@ public class ParticleShooter {
         directionVector[2] = direction.z;        
     }
     
-    public void addParticles(android.firstopneglproject.com.glwallpaper.objects.ParticleSystem particleSystem, float currentTime,
+    public void addParticles(ParticleSystem particleSystem, float currentTime,
                              int count) {
         for (int i = 0; i < count; i++) {
             setRotateEulerM(rotationMatrix, 0, 

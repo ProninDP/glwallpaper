@@ -1,5 +1,21 @@
 package android.firstopneglproject.com.glwallpaper;
 
+import android.content.Context;
+import android.firstopneglproject.com.glwallpaper.objects.ParticleShooter;
+import android.firstopneglproject.com.glwallpaper.objects.ParticleSystem;
+import android.firstopneglproject.com.glwallpaper.programs.ParticleShaderProgram;
+import android.firstopneglproject.com.glwallpaper.util.Geometry.Point;
+import android.firstopneglproject.com.glwallpaper.util.Geometry.Vector;
+import android.firstopneglproject.com.glwallpaper.util.MatrixHelper;
+import android.firstopneglproject.com.glwallpaper.util.TextureHelper;
+import android.graphics.Color;
+import android.opengl.GLSurfaceView.Renderer;
+
+import java.util.Random;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
 import static android.opengl.GLES20.GL_BLEND;
 import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
 import static android.opengl.GLES20.GL_ONE;
@@ -11,24 +27,6 @@ import static android.opengl.GLES20.glViewport;
 import static android.opengl.Matrix.multiplyMM;
 import static android.opengl.Matrix.setIdentityM;
 import static android.opengl.Matrix.translateM;
-import static java.lang.Math.random;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
-import android.content.Context;
-import android.graphics.Color;
-import android.opengl.GLSurfaceView.Renderer;
-
-import android.firstopneglproject.com.glwallpaper.objects.ParticleShooter;
-import android.firstopneglproject.com.glwallpaper.objects.ParticleSystem;
-import android.firstopneglproject.com.glwallpaper.programs.ParticleShaderProgram;
-import android.firstopneglproject.com.glwallpaper.util.Geometry.Point;
-import android.firstopneglproject.com.glwallpaper.util.Geometry.Vector;
-import android.firstopneglproject.com.glwallpaper.util.MatrixHelper;
-import android.firstopneglproject.com.glwallpaper.util.TextureHelper;
-
-import java.util.Random;
 
 public class ParticlesRenderer implements Renderer {
     private final Context context;
@@ -47,7 +45,7 @@ public class ParticlesRenderer implements Renderer {
     private ParticleShooter blueParticleShooter;
     private ParticleShooter randomParticleShooter;
     /*private ParticleFireworksExplosion particleFireworksExplosion;*/
-    private Random random;
+    //private Random random;
     private long globalStartTime;
     private int texture;
 
@@ -70,7 +68,8 @@ public class ParticlesRenderer implements Renderer {
         
         final float angleVarianceInDegrees = 5f; 
         final float speedVariance = 1f;
-        
+
+        Random random = new Random();
         /*
         redParticleShooter = new ParticleShooter(
             new Point(-1f, 0f, 0f), 
@@ -88,7 +87,7 @@ public class ParticlesRenderer implements Renderer {
             Color.rgb(5, 50, 255));     
         */
         redParticleShooter = new ParticleShooter(
-            new Point(-1f, 0f, 0f), 
+            new Point(-random.nextFloat(), random.nextFloat(), random.nextFloat()),
             particleDirection,                
             Color.rgb(255, 50, 5),            
             angleVarianceInDegrees, 
@@ -102,16 +101,14 @@ public class ParticlesRenderer implements Renderer {
             speedVariance);
         
         blueParticleShooter = new ParticleShooter(
-            new Point(1f, 0f, 0f),
+            new Point(0.5f, 0f, 0f),
             particleDirection,
             Color.rgb(5, 50, 255),            
             angleVarianceInDegrees, 
             speedVariance);
-        random = new Random();
-        randomParticleShooter = new ParticleShooter(
-                new Point(1f + random.nextFloat(),
-                        0f + random.nextFloat(),
-                        0f + random.nextFloat()),
+        //random = new Random();
+        /*randomParticleShooter = new ParticleShooter(
+                new Point(-1f, 0f, 0f),
                 particleDirection,
                 Color.rgb(random.nextInt(255),
                         random.nextInt(255),
@@ -122,7 +119,6 @@ public class ParticlesRenderer implements Renderer {
         particleFireworksExplosion = new ParticleFireworksExplosion();
         
         random = new Random();  */
-        
         texture = TextureHelper.loadTexture(context, R.drawable.particle_texture);
     }
 
@@ -134,7 +130,7 @@ public class ParticlesRenderer implements Renderer {
             / (float) height, 1f, 10f);
         
         setIdentityM(viewMatrix, 0);
-        translateM(viewMatrix, 0, 0f, -1.5f, -5f);   
+        translateM(viewMatrix, 0, 0f, -2f, -5f);
         multiplyMM(viewProjectionMatrix, 0, projectionMatrix, 0,
             viewMatrix, 0);
     }
@@ -145,23 +141,23 @@ public class ParticlesRenderer implements Renderer {
         
         float currentTime = (System.nanoTime() - globalStartTime) / 1000000000f;
         
-        //redParticleShooter.addParticles(particleSystem, currentTime, 5);
-        greenParticleShooter.addParticles(particleSystem, currentTime, 5);              
-        //blueParticleShooter.addParticles(particleSystem, currentTime, 5);
-        randomParticleShooter.addParticles(particleSystem, currentTime, 5);
+        redParticleShooter.addParticles(particleSystem, currentTime, 5);
+        greenParticleShooter.addParticles(particleSystem, currentTime, 5);
+        blueParticleShooter.addParticles(particleSystem, currentTime, 5);
+        //randomParticleShooter.addParticles(particleSystem, currentTime, 5);
         /*
         if (random.nextFloat() < 0.02f) {
             hsv[0] = random.nextInt(360);
             
             particleFireworksExplosion.addExplosion(
-                particleSystem, 
+                particleSystem,
                 new Vector(
                     -1f + random.nextFloat() * 2f, 
                      3f + random.nextFloat() / 2f,
                     -1f + random.nextFloat() * 2f), 
                 Color.HSVToColor(hsv), 
                 globalStartTime);                              
-        }    */            
+        }    */
         
         particleProgram.useProgram();
         /*

@@ -1,14 +1,13 @@
 package android.firstopneglproject.com.glwallpaper.objects;
 
-import static android.opengl.Matrix.multiplyMV;
-import static android.opengl.Matrix.setRotateEulerM;
+import android.firstopneglproject.com.glwallpaper.util.Geometry.Point;
+import android.firstopneglproject.com.glwallpaper.util.Geometry.Vector;
+import android.graphics.Color;
 
 import java.util.Random;
 
-import android.graphics.Color;
-
-import android.firstopneglproject.com.glwallpaper.util.Geometry.Point;
-import android.firstopneglproject.com.glwallpaper.util.Geometry.Vector;
+import static android.opengl.Matrix.multiplyMV;
+import static android.opengl.Matrix.setRotateEulerM;
 
 public class ParticleFireworksExplosion {
     private final Random random = new Random();
@@ -18,7 +17,7 @@ public class ParticleFireworksExplosion {
     private float[] resultVector = new float[4];
     private float[] hsv = new float[3];           
 
-    public void addExplosion(android.firstopneglproject.com.glwallpaper.objects.ParticleSystem particleSystem, Point position,
+    public void addExplosion(ParticleSystem particleSystem, Point position,
                              int color, long startTime) {
         final float currentTime = (System.nanoTime() - startTime) / 1000000000f;                
         
