@@ -43,10 +43,14 @@ public class ParticleShooter {
     public void addParticles(ParticleSystem particleSystem, float currentTime,
                              int count) {
         for (int i = 0; i < count; i++) {
-            setRotateEulerM(rotationMatrix, 0, 
+            /*setRotateEulerM(rotationMatrix, 0,
                 (random.nextFloat() - 0.5f) * angleVariance, 
                 (random.nextFloat() - 0.5f) * angleVariance, 
-                (random.nextFloat() - 0.5f) * angleVariance);
+                (random.nextFloat() - 0.5f) * angleVariance);*/
+            setRotateEulerM(rotationMatrix, 0,
+                    (random.nextFloat() * 360f) * angleVariance,
+                    (random.nextFloat() * 360f) * angleVariance,
+                    (random.nextFloat() * 360f) * angleVariance);
             
             multiplyMV(
                 resultVector, 0, 

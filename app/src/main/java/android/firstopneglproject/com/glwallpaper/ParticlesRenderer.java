@@ -40,10 +40,10 @@ public class ParticlesRenderer implements Renderer {
     
     private ParticleShaderProgram particleProgram;      
     private ParticleSystem particleSystem;
-    private ParticleShooter redParticleShooter;
-    private ParticleShooter greenParticleShooter;
-    private ParticleShooter blueParticleShooter;
-    private ParticleShooter randomParticleShooter;
+    private ParticleShooter particleShooter;
+    //private ParticleShooter greenParticleShooter;
+    //private ParticleShooter blueParticleShooter;
+    //private ParticleShooter randomParticleShooter;
     /*private ParticleFireworksExplosion particleFireworksExplosion;*/
     //private Random random;
     private long globalStartTime;
@@ -86,13 +86,13 @@ public class ParticlesRenderer implements Renderer {
             particleDirection,
             Color.rgb(5, 50, 255));     
         */
-        redParticleShooter = new ParticleShooter(
-            new Point(-random.nextFloat(), random.nextFloat(), random.nextFloat()),
+        particleShooter = new ParticleShooter(
+            new Point(-random.nextFloat()+random.nextFloat(), random.nextFloat(), random.nextFloat()),
             particleDirection,                
-            Color.rgb(255, 50, 5),            
+            Color.rgb(random.nextInt(255), random.nextInt(255), random.nextInt(255)),
             angleVarianceInDegrees, 
             speedVariance);
-        
+        /*
         greenParticleShooter = new ParticleShooter(
             new Point(0f, 0f, 0f), 
             particleDirection,
@@ -106,6 +106,7 @@ public class ParticlesRenderer implements Renderer {
             Color.rgb(5, 50, 255),            
             angleVarianceInDegrees, 
             speedVariance);
+        */
         //random = new Random();
         /*randomParticleShooter = new ParticleShooter(
                 new Point(-1f, 0f, 0f),
@@ -141,9 +142,9 @@ public class ParticlesRenderer implements Renderer {
         
         float currentTime = (System.nanoTime() - globalStartTime) / 1000000000f;
         
-        redParticleShooter.addParticles(particleSystem, currentTime, 5);
-        greenParticleShooter.addParticles(particleSystem, currentTime, 5);
-        blueParticleShooter.addParticles(particleSystem, currentTime, 5);
+        particleShooter.addParticles(particleSystem, currentTime, 1);
+        //greenParticleShooter.addParticles(particleSystem, currentTime, 5);
+        //blueParticleShooter.addParticles(particleSystem, currentTime, 5);
         //randomParticleShooter.addParticles(particleSystem, currentTime, 5);
         /*
         if (random.nextFloat() < 0.02f) {
