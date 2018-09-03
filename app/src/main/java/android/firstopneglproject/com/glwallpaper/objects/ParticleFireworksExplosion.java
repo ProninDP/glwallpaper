@@ -36,7 +36,9 @@ public class ParticleFireworksExplosion {
             
             for (int particle = 0; particle < 10; particle++) {                
                 particleSystem.addParticle(
-                    position, 
+                    new Point(-1f + random.nextFloat() * 2f,
+                            0f + random.nextFloat() * 4f,
+                            -1f + random.nextFloat() * 2f),
                     Color.HSVToColor(hsv), 
                     new Vector(resultVector[0] * magnitude, 
                                resultVector[1] * magnitude + 0.5f,

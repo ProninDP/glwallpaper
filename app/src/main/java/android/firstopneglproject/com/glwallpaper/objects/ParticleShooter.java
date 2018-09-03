@@ -1,6 +1,8 @@
 package android.firstopneglproject.com.glwallpaper.objects;
+
 import android.firstopneglproject.com.glwallpaper.util.Geometry.Point;
 import android.firstopneglproject.com.glwallpaper.util.Geometry.Vector;
+import android.graphics.Color;
 
 import java.util.Random;
 
@@ -10,43 +12,23 @@ import static android.opengl.Matrix.setRotateEulerM;
 /** This class shoots particles in a particular direction. */
 
 public class ParticleShooter {
-    private final Point position;
-    private final Vector direction;
-    private final int color; 
-	
-    private final float angleVariance;
-    private final float speedVariance;    
+
     
     private final Random random = new Random();
-    
+    private float[] directionVector = { 0f, 0f, 1f, 1f };
     private float[] rotationMatrix = new float[16];
-    private float[] directionVector = new float[4];
     private float[] resultVector = new float[4];
     /*
-          
+
     public ParticleShooter(Point position, Vector direction, int color) {
      */
-    public ParticleShooter(
-        Point position, Vector direction, int color, 
-        float angleVarianceInDegrees, float speedVariance) {
-        this.position = position;
-        this.direction = direction;
-        this.color = color;        
-        this.angleVariance = angleVarianceInDegrees;
-        this.speedVariance = speedVariance;        
-        
-        directionVector[0] = direction.x;
-        directionVector[1] = direction.y;
-        directionVector[2] = direction.z;        
-    }
+
     
     public void addParticles(ParticleSystem particleSystem, float currentTime,
                              int count) {
         for (int i = 0; i < count; i++) {
-            /*setRotateEulerM(rotationMatrix, 0,
-                (random.nextFloat() - 0.5f) * angleVariance, 
-                (random.nextFloat() - 0.5f) * angleVariance, 
-                (random.nextFloat() - 0.5f) * angleVariance);*/
+            final float angleVariance = 5f;
+            final float speedVariance = 1f;
             setRotateEulerM(rotationMatrix, 0,
                     (random.nextFloat() * 360f) * angleVariance,
                     (random.nextFloat() * 360f) * angleVariance,
@@ -59,15 +41,24 @@ public class ParticleShooter {
             
             float speedAdjustment = 1f + random.nextFloat() * speedVariance;
             
-            Vector thisDirection = new Vector(
-                resultVector[0] * speedAdjustment,
-                resultVector[1] * speedAdjustment,
-                resultVector[2] * speedAdjustment);        
-            
             /*
             particleSystem.addParticle(position, color, direction, currentTime);
              */
-            particleSystem.addParticle(position, color, thisDirection, currentTime);
+
+            particleSystem.addParticle(
+                    new Point(
+                    -1f + random.nextFloat() * 2f,
+                    0f + random.nextFloat() * 4f,
+                    -1f + random.nextFloat() * 2f),
+                    Color.rgb(
+                            random.nextInt(255),
+                            random.nextInt(255),
+                            random.nextInt(255)),
+                    new Vector(
+                            resultVector[0] * speedAdjustment,
+                            resultVector[1] * speedAdjustment,
+                            resultVector[2] * speedAdjustment),
+                    currentTime);
         }       
     }
 }
