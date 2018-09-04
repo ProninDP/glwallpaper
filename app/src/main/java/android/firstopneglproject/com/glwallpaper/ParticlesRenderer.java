@@ -59,7 +59,7 @@ public class ParticlesRenderer implements Renderer {
         glBlendFunc(GL_ONE, GL_ONE);
         
         particleProgram = new ParticleShaderProgram(context);        
-        particleSystem = new ParticleSystem(10);
+        particleSystem = new ParticleSystem(10000);
         globalStartTime = System.nanoTime();
 
         particleShooter = new ParticleShooter();
@@ -107,7 +107,6 @@ public class ParticlesRenderer implements Renderer {
         limitFrameRate(24);
         logFrameRate();
         glClear(GL_COLOR_BUFFER_BIT);
-
 
         drawParticles();
     }

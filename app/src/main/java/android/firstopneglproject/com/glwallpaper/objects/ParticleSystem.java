@@ -1,14 +1,14 @@
 package android.firstopneglproject.com.glwallpaper.objects;
 
-import static android.opengl.GLES20.GL_POINTS;
-import static android.opengl.GLES20.glDrawArrays;
-import static android.firstopneglproject.com.glwallpaper.Constants.BYTES_PER_FLOAT;
-import android.graphics.Color;
-
 import android.firstopneglproject.com.glwallpaper.data.VertexArray;
 import android.firstopneglproject.com.glwallpaper.programs.ParticleShaderProgram;
 import android.firstopneglproject.com.glwallpaper.util.Geometry.Point;
 import android.firstopneglproject.com.glwallpaper.util.Geometry.Vector;
+import android.graphics.Color;
+
+import static android.firstopneglproject.com.glwallpaper.Constants.BYTES_PER_FLOAT;
+import static android.opengl.GLES20.GL_POINTS;
+import static android.opengl.GLES20.glDrawArrays;
 
 public class ParticleSystem {
     private static final int POSITION_COMPONENT_COUNT = 3;
@@ -40,20 +40,21 @@ public class ParticleSystem {
     public void addParticle(Point position, int color, Vector direction,
         float particleStartTime) {                
         final int particleOffset = nextParticle * TOTAL_COMPONENT_COUNT;
-		
-        int currentOffset = particleOffset;        
-        nextParticle++;
-        
-        if (currentParticleCount < maxParticleCount) {
-            currentParticleCount++;
+
+
+        int currentOffset = particleOffset;
+        if(currentParticleCount<10) {
+            nextParticle++;
+            
+            if (currentParticleCount < maxParticleCount) {
+                currentParticleCount++;
+            }
         }
-        
         if (nextParticle == maxParticleCount) {
-            // Start over at the beginning, but keep currentParticleCount so
-            // that all the other particles still get drawn.
+                // Start over at the beginning, but keep currentParticleCount so
+                // that all the other particles still get drawn.
             nextParticle = 0;
-        }  
-        
+        }
         particles[currentOffset++] = position.x;
         particles[currentOffset++] = position.y;
         particles[currentOffset++] = position.z;
